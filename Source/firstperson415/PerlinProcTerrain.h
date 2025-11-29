@@ -43,11 +43,11 @@ public:
 	UPROPERTY(EditAnywhere, Meta = (ClampMin = 0.000001))
 		float UVScale = 0;
 
-	// Radius for the terrain generation
+	// Radius for altering the mesh
 	UPROPERTY(EditAnywhere)
 		float radius;
 
-	// Depth for the terrain generation
+	// Depth for altering the mesh
 	UPROPERTY(EditAnywhere)
 		FVector Depth;
 
@@ -63,7 +63,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Function to generate the terrain
+	// Function to alter the terrain
 	UFUNCTION()
 		void AlterMesh(FVector impactPoint);
 
