@@ -44,6 +44,10 @@ protected:
 	virtual void BeginPlay();
 
 public:
+
+	/// Is the character currently teleporting
+	UPROPERTY(EditAnywhere)
+	bool isTeleporting;
 		
 	/** Look Input Action */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
