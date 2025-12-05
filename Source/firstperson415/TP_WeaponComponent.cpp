@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Animation/AnimInstance.h"
@@ -46,7 +49,26 @@ void UTP_WeaponComponent::Fire()
 			// Spawn the projectile at the muzzle
 			World->SpawnActor<Afirstperson415Projectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
+
+		// If there is a muzzle effect specified, play it
+		if (MuzzleEffect)
+		{
+			// Generate random color
+			randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
+
+			// Get the muzzle location and rotation
+			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+			const FRotator MuzzleRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
+			const FVector MuzzleLocation = GetOwner()->GetActorLocation() + MuzzleRotation.RotateVector(MuzzleOffset);
+
+			// Spawn muzzle effect at the muzzle
+			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, MuzzleEffect, MuzzleLocation, MuzzleRotation);
+
+			// Set Niagara Particle System color parameter
+			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+		}
 	}
+
 	
 	// Try and play the sound if specified
 	if (FireSound != nullptr)

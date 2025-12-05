@@ -47,7 +47,6 @@ class Afirstperson415Projectile : public AActor
 	UPROPERTY(EditAnywhere)
 	UNiagaraSystem* colorP;
 
-
 public:
 	Afirstperson415Projectile();
 

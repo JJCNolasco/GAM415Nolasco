@@ -7,6 +7,7 @@
 #include "TP_WeaponComponent.generated.h"
 
 class Afirstperson415Character;
+class UNiagaraSystem;
 
 UCLASS(Blueprintable, BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FIRSTPERSON415_API UTP_WeaponComponent : public USkeletalMeshComponent
@@ -48,6 +49,14 @@ public:
 	/** Make the weapon Fire a Projectile */
 	UFUNCTION(BlueprintCallable, Category="Weapon")
 	void Fire();
+
+	// Random Color for muzzle effect
+	UPROPERTY()
+	FLinearColor randColor;
+
+	// Muzzle effect
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	UNiagaraSystem* MuzzleEffect;
 
 protected:
 	/** Ends gameplay for this component. */
