@@ -56,12 +56,13 @@ void UTP_WeaponComponent::Fire()
 			// Generate random color
 			randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
 
-			// Get the muzzle location and rotation
+			// Get the player controller
 			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+			// Get the muzzle location and rotation
 			const FRotator MuzzleRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
 			const FVector MuzzleLocation = GetOwner()->GetActorLocation() + MuzzleRotation.RotateVector(MuzzleOffset);
 
-			// Spawn muzzle effect at the muzzle
+			// Spawn muzzle effect at the muzzle location
 			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, MuzzleEffect, MuzzleLocation, MuzzleRotation);
 
 			// Set Niagara Particle System color parameter

@@ -31,7 +31,7 @@ void APerlinProcTerrain::BeginPlay()
 
 	// Apply Material
 	ProcMesh->SetMaterial(0, Mat);
-	
+
 }
 
 // Called every frame
