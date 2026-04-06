@@ -1,9 +1,9 @@
 # 🎮 Paintball Platform Prototype
 
 ## 📌 Overview
-This project is a first-person paintball platform prototype developed in Unreal Engine 5 using a combination of **C++ and Blueprint scripting**. The focus of this project was to build a complete gameplay loop involving combat, AI behavior, respawning, scoring systems, and UI integration.
+This project is a first-person paintball platform prototype developed in **Unreal Engine 5** for *GAM 415: Graphics Game Engine*. The project focuses heavily on **gameplay programming in C++**, combined with Blueprint scripting for rapid iteration and UI systems.
 
-The prototype emphasizes **gameplay programming, system integration, and player feedback**, combining multiple systems into a functional and polished experience.
+The goal of this project was to design and integrate multiple systems including **procedural terrain generation, rendering techniques, AI combat, UI systems, and gameplay mechanics** into a polished and functional prototype.
 
 ---
 
@@ -16,42 +16,68 @@ The prototype emphasizes **gameplay programming, system integration, and player 
 
 ---
 
-## 🧠 Core Features
+## 🧠 Core Systems
+
+### 🌍 Procedural Terrain System
+- Procedural terrain generation using **Perlin Noise**
+- Editable parameters for terrain shaping
+- Runtime terrain modification via **player raytrace interaction**
+- Custom mesh and UV generation
+
+---
+
+### 🌀 Portal System (Rendering)
+- Fully functional portal system using:
+  - **Scene Capture Components**
+  - **Render Targets**
+- Real-time rendering of alternate viewpoints
+- Player can **see through and teleport between portals**
+- Material-based portal surface rendering
+
+---
+
+### 🗺️ Dynamic Minimap System
+- Built using **Scene Capture + Render Target**
+- Displays:
+  - Player position
+  - Enemy indicators
+- Updates in real-time
+
+---
 
 ### ⚔️ Combat System
-- Projectile-based combat using C++
-- Consistent knockback system
-- Damage application for both player and AI
-- Hit feedback with sound and visual effects
+- Projectile-based combat written primarily in **C++**
+- Refactored knockback system for consistency
+- Damage handling for player and AI
+- Projectile color randomization with matching splatter decals
+- Niagara particle systems for:
+  - Muzzle effects
+  - Impact/splatter effects
+
+---
 
 ### 🤖 AI System
-- Behavior Tree and Blackboard-driven AI
-- Enemy roaming, perception, and attack logic
-- Fixed movement animation issues (no more sliding)
-- Fully integrated with damage and combat systems
+- Behavior Tree and Blackboard implementation
+- AI roaming, perception, and attack logic
+- Fixed movement animation issues (no sliding)
+- Fully integrated with combat and damage systems
 
-### ❤️ Health & Damage System
+---
+
+### ❤️ Health, Damage & Respawn
 - Shared health system for player and AI
-- Real-time damage handling
-- Heart-based UI that updates dynamically
-
-### 💀 Death & Respawn System
-- Death triggered when health reaches zero
+- Death triggered at zero health
 - Respawn system with **4 randomized spawn points**
-- Seamless return to gameplay loop
+- Two damage barriers:
+  - **Platform barrier** (partial damage + conditional respawn)
+  - **Out-of-bounds barrier** (instant death + respawn)
 
-### 🧱 Damage Barriers
-- Platform fall barrier:
-  - Applies partial damage
-  - Respawns player if health reaches zero
-- Out-of-bounds barrier:
-  - Applies lethal damage (instant death)
-  - Forces immediate respawn
+---
 
 ### 🏆 Scoring System
 - Score increases on confirmed kills
-- Tracks player performance during gameplay
-- Integrated with UI scoreboard
+- Integrated with UI scoreboard and player list
+- Tracks gameplay performance
 
 ---
 
@@ -61,21 +87,30 @@ The prototype emphasizes **gameplay programming, system integration, and player 
 - Main Menu (Play, Settings, Credits, Exit)
 - Pause Menu (Resume, Quit options)
 - Controls Menu
-- Credits Screen with animated scroll
+- Credits screen with animated scroll
 
 ### 📊 Player UI
 - Scoreboard system
 - Dynamic player list
 - Player name input system
-- Heart-based health display
+- Heart-based health UI (updates in real-time)
+
+---
+
+## 🎨 Materials & Visual Effects
+- Dynamic Material Instances
+- Procedural mesh materials
+- Projectile and decal color randomization
+- Splatter decals applied on impact
+- Niagara systems for particle effects
 
 ---
 
 ## 🔊 Audio & Feedback
 - Background music (BGM)
-- Combat sound effects (shooting, hits, etc.)
+- Combat sound effects
 - UI interaction sounds
-- Enhanced feedback for player actions
+- Enhanced gameplay feedback
 
 ---
 
@@ -83,22 +118,26 @@ The prototype emphasizes **gameplay programming, system integration, and player 
 - Unreal Engine 5
 - C++
 - Blueprint Visual Scripting
+- Niagara VFX System
+- Render Targets & Scene Capture
 - Visual Studio
 
 ---
 
-## 🎯 What I Focused On
-- Gameplay programming and system design
-- AI behavior and combat interactions
-- UI integration and player feedback systems
-- Combining C++ and Blueprint workflows effectively
+## 🎯 Key Focus Areas
+- Gameplay programming in C++
+- Rendering systems (portals, minimap)
+- Procedural generation
+- AI behavior and combat systems
+- UI system integration
+- Combining engine-level systems with gameplay features
 
 ---
 
 ## 🚀 Future Improvements
-- Environmental kill credit (assigning points when enemies are knocked off platforms)
+- Environmental kill credit (tracking knock-off eliminations)
 - Improved AI combat decision-making
-- Expanded animation blending (aim offsets, smoother transitions)
+- Enhanced animation blending (aim offsets, smoother transitions)
 - Multiplayer support
 
 ---
@@ -106,22 +145,14 @@ The prototype emphasizes **gameplay programming, system integration, and player 
 ## 📸 Additional Media
 > *(Add more screenshots or GIFs here)*
 
-![UI Screenshot](PASTE_IMAGE_LINK_HERE)
+![Portal System](PASTE_IMAGE_LINK_HERE)
 
-![AI Behavior](PASTE_IMAGE_LINK_HERE)
+![Minimap](PASTE_IMAGE_LINK_HERE)
 
----
-
-## 📂 How to Run
-1. Clone the repository  
-2. Open the `.uproject` file in Unreal Engine 5  
-3. Build the project (if needed) via Visual Studio  
-4. Press Play in the editor  
+![Procedural Terrain](PASTE_IMAGE_LINK_HERE)
 
 ---
 
 ## 👤 Author
 Joseph Nolasco  
 Gameplay Programmer
-
----
