@@ -9,6 +9,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "PerlinProcTerrain.h"
+#include "GameFramework/Character.h"
 
 Afirstperson415Projectile::Afirstperson415Projectile() 
 {
@@ -48,6 +49,18 @@ void Afirstperson415Projectile::BeginPlay()
 {
 	// Call the base class
 	Super::BeginPlay();
+
+	// Ignore the owner and instigator of the projectile to prevent immediate collision
+    if (GetOwner())
+    {
+        CollisionComp->IgnoreActorWhenMoving(GetOwner(), true);
+    }
+
+    if (GetInstigator())
+    {
+        CollisionComp->IgnoreActorWhenMoving(GetInstigator(), true);
+    }
+
 	// Generate random color
 	randColor = FLinearColor(UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), UKismetMathLibrary::RandomFloatInRange(0.f, 1.f), 1.f);
 
@@ -61,51 +74,99 @@ void Afirstperson415Projectile::BeginPlay()
 
 void Afirstperson415Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	// Only add impulse and destroy projectile if we hit a physics
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
-	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+    if (!OtherActor || OtherActor == this)
+    {
+        return;
+    }
 
-		Destroy();
-	}
+    // If we hit a physics-simulating object, apply impulse and stop here
+    if (OtherComp && OtherComp->IsSimulatingPhysics())
+    {
+        OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+        Destroy();
+        return;
+    }
 
-	// Spawn Decal at hit location
-	if (OtherActor != nullptr)
-	{
-		// If Niagara Particle System is set
-		if (colorP)
-		{
-			// Spawn Niagara Particle System at hit location
-			UNiagaraComponent* particleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(colorP, HitComp, NAME_None, FVector(-20.f, 0.f, 0.f), FRotator(0.f), EAttachLocation::KeepRelativeOffset, true);
+    // Get knockback direction from projectile velocity
+    FVector KnockbackDir = GetVelocity().GetSafeNormal();
 
-			// Set Niagara Particle System color parameter
-			particleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+    // If the hit actor is a character, launch it in the knockback direction
+    ACharacter* HitCharacter = Cast<ACharacter>(OtherActor);
+    if (HitCharacter)
+    {
+        FVector LaunchVec = (KnockbackDir * 1500.0f) + FVector(0.f, 0.f, 500.f);
+        HitCharacter->LaunchCharacter(LaunchVec, true, true);
+    }
 
-			// Remove ball mesh and disable collision
-			ballMesh->DestroyComponent();
-			CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
-		}
+    // Apply damage to anything we hit
+    UGameplayStatics::ApplyDamage(
+        OtherActor,
+        1.0f,
+        GetInstigatorController(),
+        GetOwner(),
+        UDamageType::StaticClass()
+    );
 
-		// Random frame number between 0 and 3
-		float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
+    // Spawn Niagara Particle System if set
+    if (colorP)
+    {
+        UNiagaraComponent* ParticleComp = UNiagaraFunctionLibrary::SpawnSystemAttached(
+            colorP,
+            HitComp,
+            NAME_None,
+            FVector(-20.f, 0.f, 0.f),
+            FRotator(0.f),
+            EAttachLocation::KeepRelativeOffset,
+            true
+        );
 
-		// Spawn Decal
-		auto Decal = UGameplayStatics::SpawnDecalAtLocation(GetWorld(), baseMat, FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)), Hit.Location, Hit.Normal.Rotation(), 0.f);
-		auto MatInstance = Decal->CreateDynamicMaterialInstance();
+        if (ParticleComp)
+        {
+            ParticleComp->SetNiagaraVariableLinearColor(FString("RandomColor"), randColor);
+        }
 
-		// Set Decal color and frame number parameters
-		MatInstance->SetVectorParameterValue("Color", randColor);
-		MatInstance->SetScalarParameterValue("Frame", frameNum);
+        // Remove ball mesh and disable collision
+        if (ballMesh)
+        {
+            ballMesh->DestroyComponent();
+        }
 
-		// Check if the hit actor is a procedural terrain
-		APerlinProcTerrain* procTerrain = Cast<APerlinProcTerrain>(OtherActor);
+        if (CollisionComp)
+        {
+            CollisionComp->BodyInstance.SetCollisionProfileName("NoCollision");
+        }
+    }
 
-		// If it is, alter the terrain mesh
-		if (procTerrain)
-		{
-			// Alter the procedural terrain mesh at the hit location
-			procTerrain->AlterMesh(Hit.Location);
-		}
+    // Random frame number between 0 and 3
+    float frameNum = UKismetMathLibrary::RandomFloatInRange(0.f, 3.f);
 
-	}
+    // Spawn decal
+    UDecalComponent* Decal = UGameplayStatics::SpawnDecalAtLocation(
+        GetWorld(),
+        baseMat,
+        FVector(UKismetMathLibrary::RandomFloatInRange(20.f, 40.f)),
+        Hit.Location,
+        Hit.Normal.Rotation(),
+        0.f
+    );
+
+    if (Decal)
+    {
+        UMaterialInstanceDynamic* MatInstance = Decal->CreateDynamicMaterialInstance();
+
+        if (MatInstance)
+        {
+            MatInstance->SetVectorParameterValue("Color", randColor);
+            MatInstance->SetScalarParameterValue("Frame", frameNum);
+        }
+    }
+
+    // Check if the hit actor is procedural terrain
+    APerlinProcTerrain* procTerrain = Cast<APerlinProcTerrain>(OtherActor);
+    if (procTerrain)
+    {
+        procTerrain->AlterMesh(Hit.Location);
+    }
+
+    Destroy();
 }

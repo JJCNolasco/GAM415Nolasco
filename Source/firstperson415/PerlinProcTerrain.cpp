@@ -71,9 +71,6 @@ void APerlinProcTerrain::CreateVertices()
 			// Generate Z value using Perlin Noise
 			float Z = FMath::PerlinNoise2D(FVector2D(X * NoiseScale + 0.1, Y * NoiseScale + 0.1)) * ZMultiplier;
 
-			// Print Z value for debugging
-			GEngine->AddOnScreenDebugMessage(-1, 999.0f, FColor::Yellow, FString::Printf(TEXT("Z %f"), Z));
-
 			// Create Vertex for the terrain
 			Vertices.Add(FVector(X * Scale, Y * Scale, Z));
 

@@ -37,13 +37,18 @@ void UTP_WeaponComponent::Fire()
 		UWorld* const World = GetWorld();
 		if (World != nullptr)
 		{
+			// Get the player controller
 			APlayerController* PlayerController = Cast<APlayerController>(Character->GetController());
+
+			// Get the spawn location and rotation
 			const FRotator SpawnRotation = PlayerController->PlayerCameraManager->GetCameraRotation();
-			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset);
+			const FVector ForwardOffset = SpawnRotation.Vector() * 100.0f;
+			const FVector SpawnLocation = GetOwner()->GetActorLocation() + SpawnRotation.RotateVector(MuzzleOffset) + ForwardOffset;
 	
-			//Set Spawn Collision Handling Override
+			// Set spawn collision handling override
 			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.Owner = Character;
+			ActorSpawnParams.Instigator = Character;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 	
 			// Spawn the projectile at the muzzle
