@@ -8,11 +8,7 @@ The goal of this project was to design and integrate multiple systems including 
 ---
 
 ## Gameplay Preview
-> *(Replace these with your own GIFs or screenshots)*
 
-![Gameplay GIF](PASTE_GIF_LINK_HERE)
-
-![Combat Screenshot](PASTE_IMAGE_LINK_HERE)
 
 ---
 
