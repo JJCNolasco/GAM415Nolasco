@@ -1,13 +1,13 @@
-# 🎮 Paintball Platform Prototype
+# Paintball Platform Prototype
 
-## 📌 Overview
+## Overview
 This project is a first-person paintball platform prototype developed in **Unreal Engine 5** for *GAM 415: Graphics Game Engine*. The project focuses heavily on **gameplay programming in C++**, combined with Blueprint scripting for rapid iteration and UI systems.
 
 The goal of this project was to design and integrate multiple systems including **procedural terrain generation, rendering techniques, AI combat, UI systems, and gameplay mechanics** into a polished and functional prototype.
 
 ---
 
-## 🎥 Gameplay Preview
+## Gameplay Preview
 > *(Replace these with your own GIFs or screenshots)*
 
 ![Gameplay GIF](PASTE_GIF_LINK_HERE)
@@ -16,9 +16,9 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 🧠 Core Systems
+## Core Systems
 
-### 🌍 Procedural Terrain System
+### Procedural Terrain System
 - Procedural terrain generation using **Perlin Noise**
 - Editable parameters for terrain shaping
 - Runtime terrain modification via **player raytrace interaction**
@@ -26,7 +26,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-### 🌀 Portal System (Rendering)
+### Portal System (Rendering)
 - Fully functional portal system using:
   - **Scene Capture Components**
   - **Render Targets**
@@ -36,7 +36,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-### 🗺️ Dynamic Minimap System
+### Dynamic Minimap System
 - Built using **Scene Capture + Render Target**
 - Displays:
   - Player position
@@ -45,7 +45,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-### ⚔️ Combat System
+### Combat System
 - Projectile-based combat written primarily in **C++**
 - Refactored knockback system for consistency
 - Damage handling for player and AI
@@ -56,7 +56,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-### 🤖 AI System
+### AI System
 - Behavior Tree and Blackboard implementation
 - AI roaming, perception, and attack logic
 - Fixed movement animation issues (no sliding)
@@ -64,7 +64,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-### ❤️ Health, Damage & Respawn
+### Health, Damage & Respawn
 - Shared health system for player and AI
 - Death triggered at zero health
 - Respawn system with **4 randomized spawn points**
@@ -74,22 +74,22 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-### 🏆 Scoring System
+### Scoring System
 - Score increases on confirmed kills
 - Integrated with UI scoreboard and player list
 - Tracks gameplay performance
 
 ---
 
-## 🖥️ UI Systems
+## UI Systems
 
-### 🎮 Menus
+### Menus
 - Main Menu (Play, Settings, Credits, Exit)
 - Pause Menu (Resume, Quit options)
 - Controls Menu
 - Credits screen with animated scroll
 
-### 📊 Player UI
+### Player UI
 - Scoreboard system
 - Dynamic player list
 - Player name input system
@@ -97,7 +97,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 🎨 Materials & Visual Effects
+## Materials & Visual Effects
 - Dynamic Material Instances
 - Procedural mesh materials
 - Projectile and decal color randomization
@@ -106,7 +106,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 🔊 Audio & Feedback
+## Audio & Feedback
 - Background music (BGM)
 - Combat sound effects
 - UI interaction sounds
@@ -114,7 +114,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 - Unreal Engine 5
 - C++
 - Blueprint Visual Scripting
@@ -124,7 +124,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 🎯 Key Focus Areas
+## Key Focus Areas
 - Gameplay programming in C++
 - Rendering systems (portals, minimap)
 - Procedural generation
@@ -134,7 +134,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 - Environmental kill credit (tracking knock-off eliminations)
 - Improved AI combat decision-making
 - Enhanced animation blending (aim offsets, smoother transitions)
@@ -142,7 +142,7 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 📸 Additional Media
+## Additional Media
 > *(Add more screenshots or GIFs here)*
 
 ![Portal System](PASTE_IMAGE_LINK_HERE)
@@ -153,6 +153,6 @@ The goal of this project was to design and integrate multiple systems including 
 
 ---
 
-## 👤 Author
+## Author
 Joseph Nolasco  
 Gameplay Programmer
